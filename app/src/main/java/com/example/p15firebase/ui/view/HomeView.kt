@@ -208,7 +208,9 @@ fun HomeStatus (
             ListMahasiswa(
                 listMhs = homeUiState.data,
                 onClick = { onDetailClick(it) },
-                onDeleteClick = { onDeleteClick(it) }
+                onDeleteClick = {
+                    deleteConfirmationRequired = it
+                }
             )
             deleteConfirmationRequired?.let { data ->
                 DeleteConfirmationDialog(
