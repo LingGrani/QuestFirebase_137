@@ -5,12 +5,12 @@ interface DestinasiNavigasi {
     val titleRes: String
 }
 
-object InsertDestination: DestinasiNavigasi {
-    override val route = "insert"
-    override val titleRes = "Insert"
+object DestinasiHome: DestinasiNavigasi {
+    override val route = "home"
+    override val titleRes = "Home"
 }
 
-object UpdateDestination: DestinasiNavigasi {
-    override val route = "update"
-    override val titleRes = "Update"
+object DestinasiInsert: DestinasiNavigasi {
+    override val route = "insert"
+    override val titleRes = "Insert"
 }
