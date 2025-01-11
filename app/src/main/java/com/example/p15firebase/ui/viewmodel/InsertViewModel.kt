@@ -36,10 +36,10 @@ data class FormErrorState (
     val angkatan: String? = null
 ) {
     fun isValid(): Boolean {
-        return nim != null && nama != null && gender != null && alamat != null && kelas != null && angkatan != null
+        return nim == null && nama == null && gender == null && alamat == null && kelas == null && angkatan == null
     }
 }
-data class  InsertUiState(
+data class InsertUiState(
     val insertUiEvent: MahasiswaEvent = MahasiswaEvent(),
     val isEntryValid: FormErrorState = FormErrorState()
 )
@@ -70,12 +70,12 @@ class InsertViewModel (
     fun validateFields (): Boolean {
         val event = uiEvent.insertUiEvent
         val errorState = FormErrorState(
-            nim = if (event.nim.isNotEmpty()) "NIM tidak boleh kosong" else null,
-            nama = if (event.nama.isNotEmpty()) "Nama tidak boleh kosong" else null,
-            gender = if (event.gender.isNotEmpty()) "Jenis Kelamin tidak boleh kosong" else null,
-            alamat = if (event.alamat.isNotEmpty()) "Alamat tidak boleh kosong" else null,
-            kelas = if (event.kelas.isNotEmpty()) "Kelas tidak boleh kosong" else null,
-            angkatan = if (event.angkatan.isNotEmpty()) "Angkatan tidak boleh kosong" else null
+            nim = if (event.nim.isEmpty()) "NIM tidak boleh kosong" else null,
+            nama = if (event.nama.isEmpty()) "Nama tidak boleh kosong" else null,
+            gender = if (event.gender.isEmpty()) "Jenis Kelamin tidak boleh kosong" else null,
+            alamat = if (event.alamat.isEmpty()) "Alamat tidak boleh kosong" else null,
+            kelas = if (event.kelas.isEmpty()) "Kelas tidak boleh kosong" else null,
+            angkatan = if (event.angkatan.isEmpty()) "Angkatan tidak boleh kosong" else null
         )
         uiEvent = uiEvent.copy(isEntryValid = errorState)
         return errorState.isValid()
