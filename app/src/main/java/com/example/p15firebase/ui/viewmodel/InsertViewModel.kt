@@ -103,6 +103,6 @@ class InsertViewModel (
     }
 
     fun resetSnackBarMessage() {
-
+        uiState = FormState.Idle
     }
 }
