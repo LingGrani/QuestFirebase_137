@@ -10,7 +10,6 @@ import com.example.p15firebase.repository.RepositoryMhs
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 sealed class HomeUiState {
     data class Success(val data: List<Mahasiswa>) : HomeUiState()
@@ -26,6 +25,16 @@ class HomeViewModel (
 
     init {
         getMhs()
+    }
+
+    fun deleteMhs (mhs: Mahasiswa) {
+        viewModelScope.launch {
+            try {
+                repoMhs.deleteMhs(mhs)
+            } catch (e: Exception) {
+                mhsUiState = HomeUiState.Error(e)
+            }
+        }
     }
 
     fun getMhs() {
