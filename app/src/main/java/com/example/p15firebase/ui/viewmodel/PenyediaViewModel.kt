@@ -13,5 +13,6 @@ fun CreationExtras.aplikasiMahasiswa(): MahasiswaApp =
 object PenyediaViewModel{
     val Factory = viewModelFactory {
         initializer { HomeViewModel(aplikasiMahasiswa().containerApp.repositoryMhs)}
+        initializer { InsertViewModel(aplikasiMahasiswa().containerApp.repositoryMhs)}
     }
 }
