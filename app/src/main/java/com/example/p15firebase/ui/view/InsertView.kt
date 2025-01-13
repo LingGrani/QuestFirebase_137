@@ -1,5 +1,6 @@
 package com.example.p15firebase.ui.view
 
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,8 +30,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.p15firebase.ui.viewmodel.FormErrorState
 import com.example.p15firebase.ui.viewmodel.FormState
@@ -58,7 +64,7 @@ fun FormMahasiswa (
             onValueChange = { onValueChange(mahasiswaEvent.copy(nama = it)) },
             label = { Text("Nama") },
             isError = errorState.nama != null,
-            placeholder = { Text("Masukkan Nama") }
+            placeholder = { Text("Masukkan Nama") },
         )
         Text (
             text = errorState.nama ?: "",
@@ -145,6 +151,42 @@ fun FormMahasiswa (
             text = errorState.angkatan ?: "",
             color = Color.Red
         )
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.judulSkripsi,
+            onValueChange = { onValueChange(mahasiswaEvent.copy(judulSkripsi = it)) },
+            label = { Text("Judul Skripsi") },
+            isError = errorState.judulSkripsi != null,
+            placeholder = { Text("Masukkan Judul Skripsi") },
+        )
+        Text (
+            text = errorState.judulSkripsi ?: "",
+            color = Color.Red
+        )
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.dosen1,
+            onValueChange = { onValueChange(mahasiswaEvent.copy(dosen1 = it)) },
+            label = { Text("Dosen Pembimbing 1") },
+            isError = errorState.dosen1 != null,
+            placeholder = { Text("Masukkan Dosen Pembimbing 1") },
+        )
+        Text (
+            text = errorState.dosen1 ?: "",
+            color = Color.Red
+        )
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.dosen2,
+            onValueChange = { onValueChange(mahasiswaEvent.copy(dosen2 = it)) },
+            label = { Text("Dosen Pembimbing 2") },
+            isError = errorState.dosen2 != null,
+            placeholder = { Text("Masukkan Dosen Pembimbing 2") },
+        )
+        Text (
+            text = errorState.dosen2 ?: "",
+            color = Color.Red
+        )
     }
 }
 
@@ -154,10 +196,11 @@ fun InserBodyMhs (
     onValueChange: (MahasiswaEvent) -> Unit,
     uiState: InsertUiState,
     onClick: () -> Unit = {},
-    homeUiState: FormState
+    homeUiState: FormState,
+    onBack: () -> Unit = {}
 ) {
     Column (
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
@@ -167,22 +210,32 @@ fun InserBodyMhs (
             errorState = uiState.isEntryValid,
             modifier = Modifier.fillMaxWidth()
         )
-        Button(
-            onClick = onClick,
-            modifier = Modifier.fillMaxWidth(),
-            enabled = homeUiState !is FormState.Loading
-        ) {
-            if (homeUiState is FormState.Loading) {
-                CircularProgressIndicator(
-                    color = Color.White,
-                    modifier = Modifier
-                        .size(20.dp)
-                        .padding(end = 8.dp)
+        Row (
+            modifier = Modifier.fillMaxWidth()
+        ){
+            Button(
+                modifier = Modifier.weight(1f),
+                onClick = onBack
+            ) {
+                Text("Kembali")
+            }
+            Button(
+                onClick = onClick,
+                modifier = Modifier.weight(1f),
+                enabled = homeUiState !is FormState.Loading
+            ) {
+                if (homeUiState is FormState.Loading) {
+                    CircularProgressIndicator(
+                        color = Color.White,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .padding(end = 8.dp)
 
-                )
-                Text("Loading")
-            } else {
-                Text("Insert")
+                    )
+                    Text("Loading")
+                } else {
+                    Text("Insert")
+                }
             }
         }
     }
@@ -228,16 +281,6 @@ fun InsertMhsView(
     Scaffold (
         modifier = modifier,
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-        topBar = {
-            TopAppBar(
-                title = { Text("Insert Mahasiswa") },
-                navigationIcon = {
-                    Button (onClick = onBack){
-                        Text("Back")
-                    }
-                }
-            )
-        }
     ) { paddding ->
         Column (
             modifier = Modifier
@@ -255,7 +298,8 @@ fun InsertMhsView(
                     if (viewModel.validateFields()) {
                         viewModel.insertMhs()
                     }
-                }
+                },
+                onBack = onBack
             )
         }
     }

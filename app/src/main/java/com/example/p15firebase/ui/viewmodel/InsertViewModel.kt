@@ -15,7 +15,10 @@ data class MahasiswaEvent (
     val gender: String = "",
     val alamat: String = "",
     val kelas: String = "",
-    val angkatan: String = ""
+    val angkatan: String = "",
+    val judulSkripsi: String = "",
+    val dosen1: String = "",
+    val dosen2: String = ""
 )
 
 fun MahasiswaEvent.toMahasiswa(): Mahasiswa = Mahasiswa(
@@ -24,7 +27,10 @@ fun MahasiswaEvent.toMahasiswa(): Mahasiswa = Mahasiswa(
     gender = gender,
     alamat = alamat,
     kelas = kelas,
-    angkatan = angkatan
+    angkatan = angkatan,
+    judulSkripsi = judulSkripsi,
+    dosen1 = dosen1,
+    dosen2 = dosen2
 )
 
 data class FormErrorState (
@@ -33,10 +39,13 @@ data class FormErrorState (
     val gender: String? = null,
     val alamat: String? = null,
     val kelas: String? = null,
-    val angkatan: String? = null
+    val angkatan: String? = null,
+    val judulSkripsi: String? = null,
+    val dosen1: String? = null,
+    val dosen2: String? = null
 ) {
     fun isValid(): Boolean {
-        return nim == null && nama == null && gender == null && alamat == null && kelas == null && angkatan == null
+        return nim == null && nama == null && gender == null && alamat == null && kelas == null && angkatan == null && judulSkripsi == null && dosen1 == null && dosen2 == null
     }
 }
 data class InsertUiState(
@@ -75,7 +84,10 @@ class InsertViewModel (
             gender = if (event.gender.isEmpty()) "Jenis Kelamin tidak boleh kosong" else null,
             alamat = if (event.alamat.isEmpty()) "Alamat tidak boleh kosong" else null,
             kelas = if (event.kelas.isEmpty()) "Kelas tidak boleh kosong" else null,
-            angkatan = if (event.angkatan.isEmpty()) "Angkatan tidak boleh kosong" else null
+            angkatan = if (event.angkatan.isEmpty()) "Angkatan tidak boleh kosong" else null,
+            judulSkripsi = if (event.judulSkripsi.isEmpty()) "Judul Skripsi tidak boleh kosong" else null,
+            dosen1 = if (event.dosen1.isEmpty()) "Dosen Pembimbing 1 tidak boleh kosong" else null,
+            dosen2 = if (event.dosen2.isEmpty()) "Dosen Pembimbing 2 tidak boleh kosong" else null
         )
         uiEvent = uiEvent.copy(isEntryValid = errorState)
         return errorState.isValid()

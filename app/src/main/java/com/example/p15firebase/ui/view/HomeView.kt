@@ -94,45 +94,59 @@ fun CardMhs(
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(imageVector = Icons.Filled.Person, contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
-                Text(
-                    text = mhs.nama,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
-                Text(
-                    text = mhs.nim,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
-                )
-                Spacer(modifier = Modifier.padding(4.dp))
-                IconButton(
-                    onClick = { onDeleteClick(mhs)
-                        Log.d("CardMhs", "Mhs berhasil dihapus: $mhs")
-                    }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(imageVector = Icons.Filled.Delete, contentDescription = "")
+                    Text("Nama:", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    Spacer(modifier = Modifier.padding(4.dp))
+                    Text(
+                        text = mhs.nama,
+                        fontSize = 18.sp
+                    )
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Spacer(modifier = Modifier.padding(4.dp))
+                    Text(
+                        text = mhs.nim,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                    Spacer(modifier = Modifier.padding(4.dp))
+                    IconButton(
+                        onClick = { onDeleteClick(mhs)
+                            Log.d("CardMhs", "Mhs berhasil dihapus: $mhs")
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Filled.Delete, contentDescription = "")
+                    }
                 }
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Filled.Home, contentDescription = "")
+                Text("Kelas:", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
                     text = mhs.kelas,
                     fontWeight = FontWeight.Bold,
+                )
+            }
+            Spacer(modifier = Modifier.padding(4.dp))
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Text(
+                    text = mhs.judulSkripsi,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
                 )
             }
         }
